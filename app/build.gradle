@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '27.0.3'
+
+    defaultConfig {
+        applicationId "com.tencent.qcloud.suixinbo"
+        minSdkVersion 18
+        targetSdkVersion 26
+//        versionCode 1
+//        versionName "1.0"
+
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a'
+        }
+    }
+
+//    packagingOptions{
+//        exclude '*.apk'
+//    }
+//    dexOptions {
+//        jumboMode true
+//        incremental false
+//    }
+    lintOptions{
+        abortOnError false
+        disable 'MissingTranslation'
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.2.0'
+    implementation 'com.google.code.gson:gson:2.3.1'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.tencent.ilivesdk:ilivesdk:1.8.5.5'
+    implementation 'com.tencent.livesdk:livesdk:1.1.4'
+    implementation files('libs/liteavsdk.jar')
+    implementation project(':faceunity')
+}
