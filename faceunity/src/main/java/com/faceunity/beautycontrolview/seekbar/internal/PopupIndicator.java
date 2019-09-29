@@ -29,7 +29,7 @@ import com.faceunity.beautycontrolview.seekbar.internal.drawable.MarkerDrawable;
  * @see #showIndicator(View, Rect)
  * @see #dismiss()
  * @see #dismissComplete()
- * @see Floater
+ * @see PopupIndicator.Floater
  */
 public class PopupIndicator {
 

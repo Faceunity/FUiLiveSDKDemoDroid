@@ -2,50 +2,66 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '27.0.3'
+    buildToolsVersion "28.0.3"
 
-    defaultConfig {
-        applicationId "com.tencent.qcloud.suixinbo"
-        minSdkVersion 18
-        targetSdkVersion 26
-//        versionCode 1
-//        versionName "1.0"
 
-        ndk {
-            abiFilters 'armeabi', 'armeabi-v7a'
+    signingConfigs{
+        release{
+            storeFile file("$System.env.KEYSTORE_PATH")
+            storePassword "$System.env.STOREPASS"
+            keyAlias "$System.env.ALIAS"
+            keyPassword "$System.env.KEYPASS"
         }
     }
 
-//    packagingOptions{
-//        exclude '*.apk'
-//    }
-//    dexOptions {
-//        jumboMode true
-//        incremental false
-//    }
+    packagingOptions{
+        exclude '*.apk'
+    }
     lintOptions{
         abortOnError false
-        disable 'MissingTranslation'
+    }
+    buildTypes{
+        release{
+            signingConfig signingConfigs.release
+        }
     }
 
+    defaultConfig {
+        applicationId "com.tencent.ilivedemo"
+        minSdkVersion 16
+        targetSdkVersion 26
+        //targetSdkVersion 27 以上会报错，demo本身的bug
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+
+        ndk{
+            abiFilters 'armeabi', 'armeabi-v7a'
+        }
+    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.2.0'
-    implementation 'com.google.code.gson:gson:2.3.1'
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
-    implementation 'com.tencent.ilivesdk:ilivesdk:1.8.5.5'
-    implementation 'com.tencent.livesdk:livesdk:1.1.4'
-    implementation files('libs/liteavsdk.jar')
-    implementation project(':faceunity')
+    implementation 'com.android.support:support-v4:26.1.0'
+    implementation 'com.tencent.ilivesdk:ilivesdk:1.9.6'
+    implementation 'com.tencent.imsdk:imsdk:2.7.2.14125.14127'
+    implementation 'com.tencent.ilivefilter:ilivefilter:1.1.15'
+    implementation 'com.squareup.okhttp3:okhttp:3.14.2'
+    implementation 'com.tencent.rtmpsdk:rtmpsdk:1.0.8'
+    implementation project(path: ':faceunity')
 }

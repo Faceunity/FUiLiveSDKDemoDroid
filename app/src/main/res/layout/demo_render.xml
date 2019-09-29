@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorDarkGray"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.tencent.ilivesdk.view.ILiveRootView
+        android:id="@+id/ilrv_back"
+        android:layout_margin="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:text="@string/str_tips_text"
+        android:singleLine="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.tencent.ilivesdk.view.ILiveRootView
+        android:id="@+id/ilrv_first"
+        android:layout_width="96dp"
+        android:layout_height="128dp" />
+
+    <com.tencent.ilivesdk.view.ILiveRootView
+        android:id="@+id/ilrv_second"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="96dp"
+        android:layout_height="128dp" />
+
+</RelativeLayout>

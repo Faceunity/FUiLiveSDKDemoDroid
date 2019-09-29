@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@color/colorBack"
+    android:layout_height="match_parent">
+    
+    <com.tencent.ilivesdk.view.AVRootView
+        android:id="@+id/arv_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_marginTop="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 标题 -->
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_return"
+            android:gravity="center"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:padding="10dp"
+            android:src="@mipmap/ic_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:gravity="center"
+            android:textSize="23dp"
+            android:textColor="@color/colorWhite"
+            android:text="@string/str_menu_live_guest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="80dp"
+        android:layout_marginBottom="80dp"
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <ScrollView
+            android:id="@+id/sv_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/tv_msg"
+                android:gravity="bottom"
+                android:textColor="@color/colorWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.tencent.ilivedemo.view.DemoEditText
+            android:id="@+id/et_room"
+            android:inputType="number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="请输入房间号 数字"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/tv_join"
+            style="@style/DemoButton"
+            android:onClick="onClick"
+            android:text="@string/str_btn_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <!-- 控制栏 -->
+    <LinearLayout
+        android:id="@+id/ll_controller"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View android:layout_width="0dp"  android:layout_height="@dimen/icon_height" android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_info"
+            android:visibility="invisible"
+            android:src="@mipmap/ic_info_on"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height" />
+
+        <View android:layout_width="0dp"  android:layout_height="@dimen/icon_height" android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_role"
+            android:visibility="invisible"
+            android:src="@mipmap/ic_role"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height" />
+
+        <View android:layout_width="0dp"  android:layout_height="@dimen/icon_height" android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_camera"
+            android:src="@mipmap/ic_camera_on"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height" />
+
+        <View android:layout_width="0dp"  android:layout_height="@dimen/icon_height" android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_switch"
+            android:src="@mipmap/ic_switch_camera"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height" />
+
+        <View android:layout_width="0dp"  android:layout_height="@dimen/icon_height" android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_flash"
+            android:src="@drawable/btn_flash"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height" />
+
+        <View android:layout_width="0dp"  android:layout_height="@dimen/icon_height" android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iv_mic"
+            android:src="@mipmap/ic_mic_on"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:layout_width="@dimen/icon_width"
+            android:layout_height="@dimen/icon_height" />
+
+        <View android:layout_width="0dp"  android:layout_height="@dimen/icon_height" android:layout_weight="1" />
+    </LinearLayout>
+</RelativeLayout>

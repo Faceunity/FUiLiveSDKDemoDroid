@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:lmvattr="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorBack"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="30dp"
+            android:layout_margin="10dp"
+            android:text="@string/livesdk_sdk_demo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="20dp"
+            android:layout_margin="20dp"
+            android:text="@string/livesdk_demo_ilivesdk_intr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.tencent.ilivedemo.view.LineMenuView
+                android:id="@+id/lmv_host"
+                lmvattr:icon = "@mipmap/ic_ilvb"
+                lmvattr:title = "@string/str_menu_host"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.tencent.ilivedemo.view.LineMenuView
+                android:id="@+id/lmv_guest"
+                lmvattr:icon = "@mipmap/ic_play"
+                lmvattr:title = "@string/str_menu_guest"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.tencent.ilivedemo.view.LineMenuView
+                android:id="@+id/lmv_live_guest"
+                lmvattr:icon = "@mipmap/ic_liveguest"
+                lmvattr:title = "@string/str_menu_live_guest"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.tencent.ilivedemo.view.LineMenuView
+                android:id="@+id/lmv_beauty"
+                lmvattr:icon = "@mipmap/ic_btu"
+                lmvattr:title = "@string/str_menu_beauty"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.tencent.ilivedemo.view.LineMenuView
+                android:id="@+id/lmv_replay"
+                lmvattr:icon = "@mipmap/ic_replay"
+                lmvattr:title = "@string/str_menu_replay"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.tencent.ilivedemo.view.LineMenuView
+                android:id="@+id/lmv_render"
+                lmvattr:icon = "@mipmap/ic_ilvb"
+                lmvattr:title = "@string/str_menu_render"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.tencent.ilivedemo.view.LineMenuView
+                android:id="@+id/lmv_log"
+                lmvattr:icon = "@mipmap/ic_log"
+                lmvattr:title = "@string/str_menu_log"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.tencent.ilivedemo.view.LineMenuView
+                android:id="@+id/lmv_cross"
+                lmvattr:icon = "@mipmap/ic_cross"
+                lmvattr:title = "@string/str_menu_cross"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.tencent.ilivedemo.view.LineMenuView
+                android:id="@+id/lmv_mix"
+                lmvattr:icon = "@mipmap/ic_merge"
+                lmvattr:title = "@string/str_menu_mix"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

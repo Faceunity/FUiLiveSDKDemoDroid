@@ -167,7 +167,7 @@ public class BeautyBoxGroup extends LinearLayout {
      *
      * @param listener the callback to call on checked state change
      */
-    public void setOnCheckedChangeListener(OnCheckedChangeListener listener) {
+    public void setOnCheckedChangeListener(BeautyBoxGroup.OnCheckedChangeListener listener) {
         mOnCheckedChangeListener = listener;
     }
 

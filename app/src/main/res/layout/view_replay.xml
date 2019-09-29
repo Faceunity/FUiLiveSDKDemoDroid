@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_cover"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:src="@mipmap/cover_background"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tv_room_id"
+        android:layout_below="@id/iv_cover"
+        android:text="RoomNumber"
+        android:textSize="23dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/colorWhite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_below="@id/iv_cover"
+        android:gravity="right"
+        android:text="2019.4.12 12:00"
+        android:textColor="@color/colorGray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

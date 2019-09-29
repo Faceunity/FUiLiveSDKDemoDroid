@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="30dp"
+            android:layout_margin="20dp"
+            android:text="@string/livesdk_sdk_demo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="20dp"
+            android:layout_margin="20dp"
+            android:text="@string/livesdk_demo_ilivesdk_intr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_login"
+        android:orientation="vertical"
+        android:layout_margin="60dp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="@string/str_tip_account"
+            android:textColor="@color/colorGray"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <com.tencent.ilivedemo.view.DemoEditText
+            android:id="@+id/et_account"
+            android:hint="@string/hit_regist_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/str_tip_password"
+            android:textSize="20dp"
+            android:textColor="@color/colorGray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <com.tencent.ilivedemo.view.DemoEditText
+            android:id="@+id/et_password"
+            android:hint="@string/hit_regist_password"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/DemoButton"
+                android:id="@+id/btn_login"
+                android:text="@string/str_btn_login"
+                android:onClick="onClick"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <TextView
+                style="@style/DemoButton"
+                android:id="@+id/btn_regist"
+                android:text="@string/str_btn_regist"
+                android:onClick="onClick"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

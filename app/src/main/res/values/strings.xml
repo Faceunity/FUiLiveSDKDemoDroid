@@ -1,194 +1,79 @@
 <resources>
-    <string name="app_name">Suixinbo</string>
+    <string name="app_name">简单直播</string>
 
-    <!-- login re fragment-->
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_register">RegisterActivity</string>
-    <string name="tencent_tls_ui_independentLoginTitle">用户名登录</string>
-    <string name="tencent_tls_ui_independentRegisterTitle">用户名注册</string>
-    <string name="title_living">是否回到上次直播</string>
-    <string name="action_settings">settings</string>
+    <string name="tip_menu_title">简单直播</string>
 
+    <!-- 登录 -->
+    <string name="str_tip_account">用户名</string>
+    <string name="str_hit_account">请输入用户名</string>
+    <string name="str_tip_password">密码</string>
+    <string name="str_hit_password">请输入密码</string>
 
-    <string name="btn_take_photo">拍照</string>
-    <string name="btn_pic_photo">从手机相册选择</string>
-    <string name="btn_return_home">返回首页</string>
-    <string name="btn_return">返回</string>
-    <string name="btn_save">保存</string>
-    <string name="btn_cancel">取消</string>
-    <string name="btn_refuse">拒绝</string>
-    <string name="btn_agree">同意</string>
-    <string name="btn_sure">确定</string>
-    <string name="btn_close">关闭</string>
+    <string name="hit_regist_account">用户名为4~24个字符</string>
+    <string name="hit_regist_password">密码长度为8~16个字符</string>
+    <string name="hit_special_chat">不允许特殊字符</string>
 
-
-    <string name="error_code_prefix">错误码：</string>
-
-
-   <!-- live fragment-->
-    <string name="live_unknown">未知</string>
-    <string name="live_titile">最新直播</string>
-    <string name="dialog_members_tips">邀请互动连线（最多可与三个成员进行互动直播）</string>
-
-
-    <!-- live play -->
-    <string name="send">发送</string>
-    <string name="invite_dialog_tips">主播邀请您与他进行互动直播</string>
-    <string name="live_end_ask_tips">确定结束直播?</string>
-    <string name="live_end_tips">直播结束啦</string>
-    <string name="live_time_tips">直播时长</string>
-    <string name="live_members_tips">观看人数</string>
-    <string name="live_admires_tips">获赞数量</string>
-
-    <string name="live_report_tips">请选择您的举报原因</string>
-    <string name="live_report_dirty">垃圾营销</string>
-    <string name="live_report_false">不实信息</string>
-    <string name="live_report_virus">有害信息</string>
-    <string name="live_report_illegal">违法信息</string>
-    <string name="live_report_yellow">淫秽信息</string>
-
-    <string name="live_host_leave">主播可能暂时离开</string>
-
-    <string name="live_btn_par">房间信息</string>
-    <string name="live_btn_record">录制</string>
-    <string name="live_btn_push">开启推流</string>
-    <string name="live_btn_stop_push">关闭推流</string>
-    <string name="live_btn_stop_record">停录</string>
-
-    <!-- pushstream -->
-    <string name="clip_title">点击地址复制到黏贴版</string>
-    <string name="clip_tip">地址复制到黏贴版上了</string>
-
-    <!-- msgadapter -->
-    <item type="id" name="tag_first"></item>
-    <item type="id" name="tag_second"></item>
-
-
-    <!-- profile fragment-->
-    <string name="profile_title">编辑个人信息</string>
-    <string name="profile_icon">头像</string>
-    <string name="profile_nickname">昵称</string>
-    <string name="profile_sign">签名</string>
-    <string name="profile_set">设置</string>
-
-    <string name="profile_about">关于随心播</string>
-    <string name="btn_login_out">退出登录</string>
-    <string name="tip_force_offline">您的帐号已在其它地方登陆</string>
-
-    <!-- set -->
-    <string name="set_live_animator">渐隐动画</string>
-    <string name="set_log_level">日志等级</string>
-    <string name="set_sdk_version">版本号</string>
-
-    <!-- edit -->
-    <string name="edit_error">修改失败</string>
-
-
-    <!-- fragment publish -->
-    <string name="publish_already_launch_avRoom">wait!</string>
-    <string name="publish_photo_take">拍照</string>
-    <string name="publish_photo_album">相册</string>
-    <string name="publish_need_photo_tips">从未发起过图片，请选择一张作为直播封面</string>
-    <string name="publish_wait_uploading">请等待封面上传完成</string>
-    <string name="publish_upload_success">上传封面成功</string>
-    <string name="publish_photo_make_sure_tips">请添加一张照片</string>
-    <string name="publish_photo_make_sure_title">请输入图片标题</string>
-    <string name="publish_create_room_failed">创建房间失败</string>
-    <string name="publish_upload_cover_failed">上传封面失败</string>
-    <string name="publish_photo_success">发布图片成功</string>
-    <string name="text_continue">继续</string>
-    <string name="text_publish">开始直播</string>
-    <string name="text_live_preview">发布直播</string>
-    <string name="text_photo_preview">发布照片</string>
-    <string name="text_live_title_input">请输入直播标题</string>
-    <string name="text_photo_title_input">你的照片你做主</string>
-    <string name="text_live_open_lbs">开启位置</string>
-    <string name="text_live_close_lbs">不显示位置</string>
-    <string name="text_live_location">正在定位中</string>
-    <string name="text_live_lbs_fail">定位失败</string>
-    <string name="text_live_lbs_unknown">未知</string>
-    <string name="text_live_default_title">我的直播我做主</string>
-    <string name="text_start_push">开启推流</string>
-    <string name="text_record_info">开始录制后直播视频自动录制，并可以进行回放</string>
-    <string name="text_live_all_see">所有人可看</string>
-    <string name="text_live_share">同步到</string>
-    <string name="text_live">正在直播>></string>
-    <string name="text_live_add_title_tips">给你的直播设置一个满意的封面</string>
-    <string name="text_live_admire_limit">点赞过于频繁</string>
-    <string name="tip_no_permission">权限不足</string>
-
-    <string name="host_sign">我的签名就是把我的世界直播给你们</string>
-    <string name="host_phone">iPhone6S Plus</string>
-    <string name="host_funs">粉丝数:9090</string>
-    <string name="host_follow">关注:7089</string>
-    <string name="host_admire">赞:11.3w</string>
-
-
-    <string name="ping_ing">测速中</string>
-    <string name="ping_progress">测速进度</string>
-    <string name="ping_speed_test">网络测速</string>
-    <string name="ping_start">开始测速</string>
-    <string name="ping_no_server">获取测速列表失败，请稍后重试</string>
-    <string name="ping_time">平均时延</string>
-    <string name="ping_miss_up">上行丢包率</string>
-    <string name="ping_miss_down">下行丢包率</string>
-    <string name="ping_cancel">取消</string>
-    <string name="ping_TEL">电信</string>
-    <string name="ping_CMCC">移动</string>
-    <string name="ping_CNC">联通</string>
-    <string name="ping_SH">上海</string>
-    <string name="ping_SZ">深圳</string>
-    <string name="ping_CD">成都</string>
-    <string name="ping_TJ">天津</string>
-    <string name="ping_NJ">南京</string>
-    <string name="ping_HZ">杭州</string>
-    <string name="ping_GZ">广州</string>
-    <string name="str_record">录制回放</string>
-    <string name="str_loading_record">正在努力获取录制视频列表。。。</string>
-    <string name="str_rec_nobody">未知</string>
-    <string name="str_push_title">推流地址</string>
-    <string name="str_push_copy">复制地址</string>
-    <string name="str_push_share">分享</string>
-    <string name="live_btn_link">主播串门</string>
-    <string name="live_btn_unlink">取消串门</string>
-    <string name="live_link_title">邀请主播</string>
-    <string name="str_dlg_link_tips">请输入主播id</string>
-    <string name="str_link_start_tips">已同意您的跨房连麦邀请，是否现在开始跨房连麦?</string>
-    <string name="str_link_req_tips">邀请您跨房连麦，是否同意?</string>
-    <string name="str_link_refuse_tips">已拒绝您的跨房连麦邀请!</string>
-    <string name="str_qav_beauty">美颜</string>
-    <string name="str_qav_white">美白</string>
-    <string name="str_btn_link">跨房连麦</string>
-    <string name="str_dt_change_role">分辨率</string>
-    <string name="str_dt_hd2">1280*720</string>
-    <string name="str_dt_hd">960*540</string>
-    <string name="str_dt_sd2">640*480</string>
-    <string name="str_dt_sd">640*368</string>
-    <string name="str_dt_ld2">480*360</string>
-    <string name="str_dt_ld">320*240</string>
-    <string name="str_dt_filter">滤镜</string>
-    <string name="str_dt_magic">挂件</string>
-    <string name="str_dt_voice">变声</string>
-    <string name="str_beauty_type">美颜方案</string>
-    <string name="str_video_qulity">观看模式</string>
-    <string name="str_video_sd">清晰</string>
-    <string name="str_video_ld">流畅</string>
-    <string name="str_link_limit">已达到跨房连麦上限</string>
-    <string name="str_title_logupload">上报日志</string>
+    <!-- 提示信息 -->
+    <string name="msg_title">提示</string>
+    <string name="msg_input_empty">用户名或密码不能为空</string>
+    <string name="msg_regist_success">注册成功</string>
+    <string name="livesdk_sdk_demo">简单直播</string>
+    <string name="livesdk_demo_ilivesdk_intr">简单直播是腾讯云互动直播解决方案演示ILiveSDK常用功能应用的工具包</string>
+    <string name="msg_send_empty">发送内容不能为空</string>
+    <string name="live_title_link">主播串门</string>
+    <string name="link_start_tips">已同意您的跨房连麦邀请，是否现在开始跨房连麦?</string>
+    <string name="link_req_tips">邀请您跨房连麦，是否同意?</string>
+    <string name="link_refuse_tips">已拒绝您的跨房连麦邀请!</string>
+    <string name="tip_not_support">Demo暂不支持该功能</string>
     <string name="str_log_upload_hit">0-当天，1-昨天，2-前天，以此类推</string>
     <string name="str_log_upload_tips">输入要上报的日志的日期</string>
+
+
+    <!-- 标题 -->
+    <string name="str_menu_host">开播</string>
+    <string name="str_menu_guest">观看</string>
+    <string name="str_menu_cross">跨房连麦</string>
+    <string name="str_menu_beauty">美颜</string>
+    <string name="str_menu_live_guest">上麦</string>
+    <string name="str_menu_replay">回放</string>
+    <string name="str_menu_render">分开渲染</string>
+    <string name="str_menu_log">日志上报</string>
+    <string name="str_menu_mix">云端混流</string>
+
+    <!-- 按钮 -->
+    <string name="str_btn_regist">注册</string>
+    <string name="str_btn_login">登录</string>
+    <string name="str_btn_create">创建</string>
+    <string name="str_btn_join">加入</string>
+    <string name="str_btn_send">发送</string>
+    <string name="str_btn_cross">跨房</string>
+    <string name="str_btn_cancel">取消</string>
+    <string name="str_btn_refuse">拒绝</string>
+    <string name="str_btn_agree">同意</string>
     <string name="str_btn_log_upload">上报</string>
-    <string name="str_tips_link_limit">已经达到跨房连麦上限</string>
-    <string name="str_beauty_not_support">ILive美颜暂不支持，敬请期待</string>
-    <string name="str_exit">退出登录</string>
 
-    <string name="str_tips_title">提示</string>
-    <string name="str_offline_msg">您的帐号已在其它地方登陆</string>
-    <string name="str_room_discuss">主播已离开房间，是否退出?</string>
+    <!-- 其它 -->
+    <string name="str_tip_beauty">美颜</string>
+    <string name="str_tip_white">美白</string>
+    <string name="str_title_btu_type">美颜类型</string>
+    <string name="str_title_btu_avsdk">内置美颜</string>
+    <string name="str_title_btu_ilive">插件美颜</string>
+    <string name="str_template">%d模板</string>
+    <string name="str_tip_log_limit">输入日期超过限制</string>
+    <string name="str_tips_discuss">主播已离开房间！</string>
+    <string name="str_tips_offline">您的帐户已在其它地方登录</string>
+    <string name="str_tip_num_error">请输入有效的房间号</string>
+    <string name="str_send_limit">输入文字长度超过限制</string>
+    <string name="str_btn_copy">复制</string>
 
-    <string name="str_search_key">用户名</string>
-    <string name="str_search_size">数量</string>
-    <string name="str_hint_account">用户名为4~24个字符，不能为纯数字</string>
-    <string name="str_hint_pwd">密码长度为8~16个字符</string>
-    <string name="str_tips_force_exit">管理员已将房间解散或将您踢出房间!</string>
+    <string name="str_dt_change_role">分辨率</string>
+    <string name="str_dt_hd">高清</string>
+    <string name="str_dt_sd">标清</string>
+    <string name="str_dt_ld">流畅</string>
+    <string name="str_tips_text">这一条很长很长的走马灯效果的文本，用于展示分开渲染的效果!</string>
+
+    <string-array name="str_btu_type">
+        <item>内置美颜</item>
+        <item>插件美颜</item>
+    </string-array>
 </resources>

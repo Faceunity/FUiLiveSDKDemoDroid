@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="false">
+        <shape
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle"
+            android:useLevel="false">
+            <solid android:color="@color/colorBackHover" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle"
+            android:useLevel="false">
+            <solid android:color="@color/colorDarkGray" />
+        </shape>
+    </item>
+</selector>
+
