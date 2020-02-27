@@ -4,7 +4,6 @@ android {
     compileSdkVersion 26
     buildToolsVersion "28.0.3"
 
-
     signingConfigs{
         release{
             storeFile file("$System.env.KEYSTORE_PATH")
@@ -28,7 +27,7 @@ android {
 
     defaultConfig {
         applicationId "com.tencent.ilivedemo"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 26
         //targetSdkVersion 27 以上会报错，demo本身的bug
         versionCode 1

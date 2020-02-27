@@ -1,115 +1,74 @@
-# iLiveSDK
-iLiveSDK 提供了账号登录，音视频互动，文本互动等基础功能，顺利的话一天之内即可集成音视频能力。
+# FUiLiveSDKDemoDriod 快速接入文档
 
-![](https://zhaoyang21cn.github.io/iLiveSDK_Help/readme_img/ilivesdk_construction.png)
+FUiLiveSDKDemoDriod 是集成了 Faceunity 美颜和贴纸道具功能和腾讯 iLiveSDK 的 Demo。
 
-支持以下场景     
->* [视频直播类]
-     类似now直播,映客 一人直播,多人观看,发文本消息,赞,送礼物。[具体参考LiveSDK](/doc/ILiveSDK/ILVLiveManager.md)
->* [视频聊天类]
-     类似微信视频通话功能呢,支持多人同时上麦(最多4路)。[具体参考CallSDK](https://github.com/zhaoyang21cn/CallSDK)
+本文是 FaceUnity SDK 对接腾讯 iLiveSDK 的技术说明，关于 `FaceUnity SDK` 的详细说明，请参看 **[FULiveDemoDroid](https://github.com/Faceunity/FULiveDemoDroid/)**。
 
-## iLiveSDK导入
+### 一、导入 SDK
 
-iLiveSDK在Android Studio上开发。
-导入只需要在gradle里增加两行（后面是版本号）
+将 faceunity  文件夹添加到工程中，下面是一些文件说明。
 
+- jniLibs 文件夹下 libnama.so 和 libfuai.so 是人脸跟踪及道具绘制核心静态库
+- libs 文件夹下 nama.jar 是供应用层调用的 JNI 接口
+- assets 文件夹下 AI_model/ai_face_processor.bundle 人脸识别数据包（自 6.6.0 版本起，v3.bundle 不再使用）
+- assets 文件夹下 face_beautification.bundle 美颜功能数据包
+- assets 文件夹下 normal 中的 \*.bundle 文件是特效贴纸文件，自定义特效贴纸制作的文档和工具，请联系技术支持获取。
 
-直播业务功能       
-compile 'com.tencent.livesdk:livesdk:1.1.4'      
-核心功能     
-compile 'com.tencent.ilivesdk:ilivesdk:1.8.5'      
+### 二、全局配置
 
-            
-## SDK最近更新说明
+在 `FURenderer` 类 的  `initFURenderer` 静态方法是对 Faceunity SDK 一些全局数据初始化的封装，可以在 Application 中调用，也可以在工作线程调用，仅需初始化一次即可。
 
-### V1.8.5(2018-04-04)
- - 更新AVSDK到1.9.8.2
- - 优化事件上报及日志上报功能
- 
-[更多版本更新信息](doc/ILiveSDK/release%20note.md)
-
-
-## DEMO
-1、随心播
- 
-  本工程为随心播的源码，随心播是基于ILiveSDK开发的一款示例性产品，用于演示互动直播的能力 <br />  
-<br />
-![](https://zhaoyang21cn.github.io/iLiveSDK_Help/readme_img/suixinbo.png)
-![](https://zhaoyang21cn.github.io/iLiveSDK_Help/readme_img/livedemo.png)
-<br />
-2、[简单直播(非常简单演示了一个直播的基本流程)](https://github.com/zhaoyang21cn/iLiveSDK_Android_LiveDemo.git)
-
-
-## API文档
-[API文档(1.8.2)](https://zhaoyang21cn.github.io/iLiveSDK_Help/android_help/)
-
-## 直播术语解释
-[房间，房间生命周期](/doc/ILiveSDK/Names.md)
-
-## 异常事件
-[异常事件](/doc/ILiveSDK/exception.md)
-
-## 常见问题
-[常见问题](/doc/ILiveSDK/comQA.md)<br />
-[错误码表](/doc/ILiveSDK/error.md)
-
-## 添加混淆
-由于内部有一些接口调用需要，在用户工程需要混淆时，请添加以下配置:
 ```
--keep class com.tencent.**{*;}
--dontwarn com.tencent.**
-
--keep class tencent.**{*;}
--dontwarn tencent.**
-
--keep class qalsdk.**{*;}
--dontwarn qalsdk.**
+public static void initFURenderer(Context context)；
 ```
-## 直播外延
 
-[角色配置](/doc/ILiveSDK/roleIntr.md)<br />
-[音视频预处理](https://www.qcloud.com/document/product/268/7645)<br/>
-[如何渲染](doc/ILiveSDK/AndroidRenderIntr.md)<br/>
-[如何旋转和裁剪画面](https://github.com/zhaoyang21cn/suixinbo_doc/blob/master/doc2/rotate.md)<br/>
-[画面对焦](https://www.qcloud.com/document/product/268/7646)<br/>
-[美颜包](/doc/ILiveSDK/ilivefiltersdk-README.md)<br/>
-[大咖模式](/doc/ILiveSDK/bigstar.md)<br/>
-[如何录制混流视频](/doc/ILiveSDK/MixStream.md)<br/>
-[如何计算跨房连麦密钥](/doc/ILiveSDK/cross_sign.md)<br />
+### 三、使用 SDK
 
-## 已知问题
-由于目前只支持armeabi架构(1.0.5版本之后支持arm-v7a)，如果工程(或依赖库)中有多架构，需要在build.gradle中添加以下配置
-<pre>
-android{
-    defaultConfig{
-        ndk{
-            abiFilters 'armeabi', 'armeabi-v7a'
-        }
-    }
-}
-</pre>
+1. 初始化
 
-如果您还在使用eclipse进行Android的开发，请参考这里[eclipse集成方案](/doc/ILiveSDK/eclipse_readme.md)。    
-Android Studio在google支持度，编译便利性等多方面远超eclipse。我们强烈建议还在使用eclipse的用户尽快升级。
+在 `FURenderer` 类 的  `onSurfaceCreated` 方法是对 Faceunity SDK 每次使用前数据初始化的封装。
 
-## 日志
-[关键路径LOG 请遇到问题先自行对比](/doc/ILiveSDK/Logs.md)
+2. 图像处理
 
-## QAVSDK下载
-iLiveSDK内部集成了腾讯云包括IMSDK，QAVSDK。使用iLiveSDK的用户不需要额外集成IMSDK或QAVSDK，就可以直接使用其所有功能。
+在 `FURenderer` 类 的  `onDrawFrame` 方法是对 Faceunity SDK 图像处理方法的封装，该方法有许多重载方法适用于不同的数据类型需求。
 
-对于仍在集成QAVSDK的老用户，也可以在这里获取QAVSDK的最新版本:
+3. 销毁
 
-[QAVSDK_1.9.8.2](http://dldir1.qq.com/hudongzhibo/ILiveSDK/Android/QAVOPENSDK_1.9.8.2_Android_Publish.zip)
+在 `FURenderer` 类 的  `onSurfaceDestroyed` 方法是对 Faceunity SDK 数据销毁的封装。
 
-[QAVSDK_1.9.7.54](http://dldir1.qq.com/hudongzhibo/ILiveSDK/Android/QAVOPENSDK_1.9.7.54_Android_Publish.zip)
+--------
 
-[QAVSDK 1.9.6.49](http://dldir1.qq.com/hudongzhibo/TCShow/AVSDK/AVSDK196/QAVOPENSDK_1.9.6.49_Android_Publish.zip )
+在本 demo 中的示例：
 
+```java
+         ILiveSDK.getInstance().getAvVideoCtrl().setLocalVideoPreProcessCallback(new AVVideoCtrl.LocalVideoPreProcessCallback() {
+            private boolean mIsFirstFrame = true;
 
-## 联系我们
+            @Override
+            public void onFrameReceive(AVVideoCtrl.VideoFrame var1) {
+                if (mFURenderer != null) {
+                    if (mIsFirstFrame) {
+                        mGLHandler = new Handler(Looper.myLooper());
+                        mFURenderer.onSurfaceCreated();
+                        mIsFirstFrame = false;
+                    }
+                    if (mSkippedFrames < 0) {
+                        mFURenderer.onDrawFrameSingleInput(var1.data, var1.width, var1.height, FURenderer.INPUT_I420);
+                    } else {
+                        mSkippedFrames--;
+                    }
+                }
+            }
+        });
+```
+4. 切换相机
 
-技术支持QQ群：594923937 207177891
+调用 `FURenderer` 类 的  `onCameraChange` 方法，用于重新为 SDK 设置参数。
 
-技术需求反馈：[https://github.com/zhaoyang21cn/iLiveSDK_Android_Suixinbo/issues](https://github.com/zhaoyang21cn/iLiveSDK_Android_Suixinbo/issues)
+### 四、切换贴纸道具及调整美颜参数
+
+`FURenderer` 类实现了 `OnFaceUnityControlListener` 接口，而 `OnFaceUnityControlListener` 接口是对切换贴纸道具及调整美颜参数等一系列操作的封装。在 demo 中，`BeautyControlView` 用于实现用户交互，调用了 `OnFaceUnityControlListener` 的方法实现功能。
+
+**PS:** 本 Demo 只是简单集成了 FaceUnity SDK。关于 iLiveSDK 的使用，请参考腾讯的文档。
+
+**至此快速集成完毕，关于 FaceUnity SDK 的更多详细说明，请参看 [FULiveDemoDroid](https://github.com/Faceunity/FULiveDemoDroid/)**
