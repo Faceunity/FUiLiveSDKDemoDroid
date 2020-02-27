@@ -5,20 +5,17 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.hardware.Camera;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Looper;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.faceunity.beautycontrolview.BeautyControlView;
-import com.faceunity.beautycontrolview.FURenderer;
+import com.faceunity.nama.FURenderer;
+import com.faceunity.nama.ui.BeautyControlView;
 import com.tencent.av.sdk.AVContext;
 import com.tencent.av.sdk.AVVideoCtrl;
 import com.tencent.ilivedemo.R;
@@ -35,7 +32,6 @@ import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.ilivesdk.ILiveConstants;
 import com.tencent.ilivesdk.ILiveSDK;
 import com.tencent.ilivesdk.adapter.CommonConstants;
-import com.tencent.ilivesdk.core.ILiveLog;
 import com.tencent.ilivesdk.core.ILiveLoginManager;
 import com.tencent.ilivesdk.core.ILiveRoomManager;
 import com.tencent.ilivesdk.core.ILiveRoomOption;
@@ -52,7 +48,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 import static com.tencent.ilivesdk.data.ILiveMessage.ILIVE_MSG_TYPE_CUSTOM;
 import static com.tencent.ilivesdk.data.ILiveMessage.ILIVE_MSG_TYPE_TEXT;
@@ -75,11 +70,9 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
 
     private String strMsg = "";
     private FURenderer mFURenderer;
-    private BeautyControlView mBeautyControlView;
-    private HandlerThread mGLThread;
     private Handler mGLHandler;
-    private boolean isfront = true;
-    private String isOpen;
+    // 切换相机时，跳过几帧
+    private int mSkippedFrames;
 
     private Runnable infoRun = new Runnable() {
         @Override
@@ -133,50 +126,34 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
             }
         });
 
-        isOpen = PreferenceUtil.getString(this, PreferenceUtil.KEY_FACEUNITY_ISON);
-        mBeautyControlView = findViewById(R.id.faceunity_control_view);
-
-        if (isOpen.equals("true")) {
+        String isOpenFU = PreferenceUtil.getString(this, PreferenceUtil.KEY_FACEUNITY_ISON);
+        BeautyControlView beautyControlView = findViewById(R.id.faceunity_control_view);
+        if ("true".equals(isOpenFU)) {
             mFURenderer = new FURenderer
                     .Builder(this)
-                    .maxFaces(1)
-                    .inputTextureType(1)
-                    .createEGLContext(true)
-                    .needReadBackImage(false)
-                    .defaultEffect(null)
+                    .setInputTextureType(FURenderer.INPUT_2D_TEXTURE)
+                    .setInputImageOrientation(FURenderer.getCameraOrientation(Camera.CameraInfo.CAMERA_FACING_FRONT))
                     .build();
-            mBeautyControlView.setOnFaceUnityControlListener(mFURenderer);
-            mGLThread = new HandlerThread(TAG + "_gl");
-            mGLThread.start();
-            mGLHandler = new Handler(mGLThread.getLooper());
-            mGLHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mFURenderer.onSurfaceCreated();
-                }
-            });
+            beautyControlView.setOnFaceUnityControlListener(mFURenderer);
         } else {
-            mBeautyControlView.setVisibility(View.GONE);
+            beautyControlView.setVisibility(View.GONE);
         }
 
         ILiveSDK.getInstance().getAvVideoCtrl().setLocalVideoPreProcessCallback(new AVVideoCtrl.LocalVideoPreProcessCallback() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+            private boolean mIsFirstFrame = true;
+
             @Override
             public void onFrameReceive(AVVideoCtrl.VideoFrame var1) {
                 if (mFURenderer != null) {
-                    final CountDownLatch count = new CountDownLatch(1);
-                    mGLHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mFURenderer.onDrawFrameSingleInput(var1.data, var1.width, var1.height,
-                                    FURenderer.INPUT_I420);
-                            count.countDown();
-                        }
-                    });
-                    try {
-                        count.await();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    if (mIsFirstFrame) {
+                        mGLHandler = new Handler(Looper.myLooper());
+                        mFURenderer.onSurfaceCreated();
+                        mIsFirstFrame = false;
+                    }
+                    if (mSkippedFrames < 0) {
+                        mFURenderer.onDrawFrameSingleInput(var1.data, var1.width, var1.height, FURenderer.INPUT_I420);
+                    } else {
+                        mSkippedFrames--;
                     }
                 }
             }
@@ -198,22 +175,20 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mGLHandler != null) {
+            mGLHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    mFURenderer.onSurfaceDestroyed();
+                }
+            });
+        }
         if (ILiveConstants.NONE_CAMERA != ILiveRoomManager.getInstance().getActiveCameraId()) {
             ILiveRoomManager.getInstance().enableCamera(ILiveRoomManager.getInstance().getActiveCameraId(), false);
         }
         MessageObservable.getInstance().deleteObserver(this);
         StatusObservable.getInstance().deleteObserver(this);
         ILiveRoomManager.getInstance().onDestory();
-        if (mFURenderer != null) {
-            mGLHandler.post(new Runnable() {
-                @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-                @Override
-                public void run() {
-                    mFURenderer.onSurfaceDestroyed();
-                    mGLThread.quitSafely();
-                }
-            });
-        }
     }
 
     @Override
@@ -231,16 +206,26 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
                         isCameraOn ? R.mipmap.ic_camera_on : R.mipmap.ic_camera_off);
                 break;
             case R.id.iv_switch:
-                Log.v(TAG, "switch->cur: " + ILiveRoomManager.getInstance().getActiveCameraId() + "/" + ILiveRoomManager.getInstance().getCurCameraId());
-                if (ILiveConstants.NONE_CAMERA != ILiveRoomManager.getInstance().getActiveCameraId()) {
-                    ILiveRoomManager.getInstance().switchCamera(1 - ILiveRoomManager.getInstance().getActiveCameraId());
+                int activeCameraId = ILiveRoomManager.getInstance().getActiveCameraId();
+                Log.v(TAG, "switch->cur: " + activeCameraId + "/" + ILiveRoomManager.getInstance().getCurCameraId());
+                if (ILiveConstants.NONE_CAMERA != activeCameraId) {
+                    ILiveRoomManager.getInstance().switchCamera(1 - activeCameraId);
                 } else {
                     ILiveRoomManager.getInstance().switchCamera(ILiveConstants.FRONT_CAMERA);
                 }
-                isfront = !isfront;
-                if (mFURenderer != null)
-                    mFURenderer.onCameraChange(isfront ? Camera.CameraInfo.CAMERA_FACING_FRONT :
-                            Camera.CameraInfo.CAMERA_FACING_BACK, 0);
+                if (mFURenderer != null) {
+                    mGLHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mFURenderer.onSurfaceDestroyed();
+                            mFURenderer.onSurfaceCreated();
+                            int cameraType = activeCameraId == 1 ? Camera.CameraInfo.CAMERA_FACING_FRONT :
+                                    Camera.CameraInfo.CAMERA_FACING_BACK;
+                            mFURenderer.onCameraChange(cameraType, FURenderer.getCameraOrientation(cameraType));
+                            mSkippedFrames = 3;
+                        }
+                    });
+                }
                 break;
             case R.id.iv_flash:
                 toggleFlash();
@@ -263,6 +248,7 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
                 if (null != roleDialog)
                     roleDialog.show();
                 break;
+            default:
         }
     }
 
@@ -286,6 +272,7 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
                     // 处理异常
                 }
                 break;
+            default:
         }
     }
 

@@ -187,9 +187,9 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <com.faceunity.beautycontrolview.BeautyControlView
+    <com.faceunity.nama.ui.BeautyControlView
         android:id="@+id/faceunity_control_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/ll_controller"></com.faceunity.beautycontrolview.BeautyControlView>
+        android:layout_above="@id/ll_controller" />
 </RelativeLayout>
