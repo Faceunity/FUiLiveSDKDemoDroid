@@ -2,7 +2,6 @@ package com.tencent.ilivedemo;
 
 import android.app.Application;
 
-import com.faceunity.nama.FURenderer;
 import com.tencent.ilivedemo.model.MessageObservable;
 import com.tencent.ilivesdk.ILiveConstants;
 import com.tencent.ilivesdk.ILiveSDK;
@@ -27,7 +26,5 @@ public class DemoApp extends Application {
             ILiveRoomManager.getInstance().init(new ILiveRoomConfig()
                     .setRoomMsgListener(MessageObservable.getInstance()));
         }
-
-        FURenderer.initFURenderer(this);
     }
 }

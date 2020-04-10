@@ -23,7 +23,7 @@ public class NeedFaceUnityAcct extends Activity {
 
         final Button button = (Button) findViewById(R.id.btn_set);
         String isOpen = PreferenceUtil.getString(this, PreferenceUtil.KEY_FACEUNITY_ISON);
-        if (TextUtils.isEmpty(isOpen) || isOpen.equals("false")) {
+        if (TextUtils.isEmpty(isOpen) || "false".equals(isOpen)) {
             isOn = false;
         } else {
             isOn = true;
@@ -38,8 +38,8 @@ public class NeedFaceUnityAcct extends Activity {
             }
         });
 
-        Button btn_to_main = (Button) findViewById(R.id.btn_to_main);
-        btn_to_main.setOnClickListener(new View.OnClickListener() {
+        Button btnToMain = (Button) findViewById(R.id.btn_to_main);
+        btnToMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NeedFaceUnityAcct.this, LoginActivity.class);
