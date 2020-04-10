@@ -48,6 +48,8 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import static com.tencent.ilivesdk.data.ILiveMessage.ILIVE_MSG_TYPE_CUSTOM;
 import static com.tencent.ilivesdk.data.ILiveMessage.ILIVE_MSG_TYPE_TEXT;
@@ -70,7 +72,6 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
 
     private String strMsg = "";
     private FURenderer mFURenderer;
-    private Handler mGLHandler;
     // 切换相机时，跳过几帧
     private int mSkippedFrames;
 
@@ -129,9 +130,11 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
         String isOpenFU = PreferenceUtil.getString(this, PreferenceUtil.KEY_FACEUNITY_ISON);
         BeautyControlView beautyControlView = findViewById(R.id.faceunity_control_view);
         if ("true".equals(isOpenFU)) {
+            FURenderer.initFURenderer(this);
             mFURenderer = new FURenderer
                     .Builder(this)
                     .setInputTextureType(FURenderer.INPUT_2D_TEXTURE)
+                    .setCameraType(Camera.CameraInfo.CAMERA_FACING_FRONT)
                     .setInputImageOrientation(FURenderer.getCameraOrientation(Camera.CameraInfo.CAMERA_FACING_FRONT))
                     .build();
             beautyControlView.setOnFaceUnityControlListener(mFURenderer);
@@ -146,12 +149,11 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
             public void onFrameReceive(AVVideoCtrl.VideoFrame var1) {
                 if (mFURenderer != null) {
                     if (mIsFirstFrame) {
-                        mGLHandler = new Handler(Looper.myLooper());
                         mFURenderer.onSurfaceCreated();
                         mIsFirstFrame = false;
                     }
                     if (mSkippedFrames < 0) {
-                        mFURenderer.onDrawFrameSingleInput(var1.data, var1.width, var1.height, FURenderer.INPUT_I420);
+                        mFURenderer.onDrawFrameSingleInput(var1.data, var1.width, var1.height, FURenderer.INPUT_FORMAT_I420);
                     } else {
                         mSkippedFrames--;
                     }
@@ -175,13 +177,22 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mGLHandler != null) {
-            mGLHandler.post(new Runnable() {
+        /* 注意：加入房间后，点击回退键，不会调用下面的 onSurfaceDestroyed，怀疑是腾讯的 bug
+         * 不加入房间依然会销毁。所以在每次创建前都调用销毁是必须的做法 */
+        if (mFURenderer != null) {
+            final CountDownLatch countDownLatch = new CountDownLatch(1);
+            mFURenderer.queueEvent(new Runnable() {
                 @Override
                 public void run() {
                     mFURenderer.onSurfaceDestroyed();
+                    countDownLatch.countDown();
                 }
             });
+            try {
+                countDownLatch.await(500, TimeUnit.MILLISECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         if (ILiveConstants.NONE_CAMERA != ILiveRoomManager.getInstance().getActiveCameraId()) {
             ILiveRoomManager.getInstance().enableCamera(ILiveRoomManager.getInstance().getActiveCameraId(), false);
@@ -213,15 +224,15 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
                 } else {
                     ILiveRoomManager.getInstance().switchCamera(ILiveConstants.FRONT_CAMERA);
                 }
+                // 重建 GL 状态
                 if (mFURenderer != null) {
-                    mGLHandler.post(new Runnable() {
+                    mFURenderer.queueEvent(new Runnable() {
                         @Override
                         public void run() {
-                            mFURenderer.onSurfaceDestroyed();
                             mFURenderer.onSurfaceCreated();
                             int cameraType = activeCameraId == 1 ? Camera.CameraInfo.CAMERA_FACING_FRONT :
                                     Camera.CameraInfo.CAMERA_FACING_BACK;
-                            mFURenderer.onCameraChange(cameraType, FURenderer.getCameraOrientation(cameraType));
+                            mFURenderer.onCameraChanged(cameraType, FURenderer.getCameraOrientation(cameraType));
                             mSkippedFrames = 3;
                         }
                     });
@@ -418,7 +429,7 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
         }
 
         final Object cam = videoCtrl.getCamera();
-        if ((cam == null) || (!(cam instanceof Camera))) {
+        if ((!(cam instanceof Camera))) {
             return;
         }
         final Camera.Parameters camParam = ((Camera) cam).getParameters();
@@ -427,13 +438,14 @@ public class DemoHost extends Activity implements View.OnClickListener, ILiveMes
         }
 
         Object camHandler = videoCtrl.getCameraHandler();
-        if ((camHandler == null) || (!(camHandler instanceof Handler))) {
+        if ((!(camHandler instanceof Handler))) {
             return;
         }
 
         //对摄像头的操作放在摄像头线程
-        if (isFlashOn == false) {
+        if (!isFlashOn) {
             ((Handler) camHandler).post(new Runnable() {
+                @Override
                 public void run() {
                     try {
                         camParam.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
